@@ -1,0 +1,21 @@
+RewriteEngine On
+
+# Redirect requests for .php files to their non-.php counterparts
+RewriteCond %{THE_REQUEST} \s/([^.]+)\.php [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# Internally rewrite requests without .php to the actual .php file
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Redirect requests for index.php to sign-in.php
+RewriteRule ^index\.php$ /sign-in.php [R=301,L]
+
+# Allow access to sign-in without .php extension
+RewriteRule ^sign-in$ sign-in.php [L]
+
+# If you want to allow access to sign-in.php directly, you can add this rule
+RewriteRule ^sign-in\.php$ sign-in.php [L]
+
+# Custom 404 Error Page
+ErrorDocument 404 /http-status-codes/page-404.php
